@@ -1,0 +1,7 @@
+# uv workspace root — not a package itself.
+# Members are the Python projects in this repo (currently only ai/).
+# Run uv commands from the root to operate on the whole workspace,
+# or from ai/ to operate on the Python project alone.
+
+[tool.uv.workspace]
+members = ["ai"]

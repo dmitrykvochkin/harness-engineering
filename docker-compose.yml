@@ -1,0 +1,47 @@
+services:
+  web:
+    image: node:22-alpine
+    working_dir: /app
+    init: true
+    # Install the pnpm version pinned in package.json, sync deps, then start dev.
+    command: sh -c "npm install -g pnpm@10.30.3 && pnpm install && pnpm dev"
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    environment:
+      # Inside the compose network Postgres is always on db:5432,
+      # regardless of the host port chosen below.
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/harness
+    volumes:
+      - ./web:/app
+      # Named volumes keep container-native node_modules, .next cache and the
+      # pnpm package store; the host's macOS installs never leak into the container.
+      - web_node_modules:/app/node_modules
+      - web_next:/app/.next
+      - pnpm_store:/root/.local/share/pnpm
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: harness
+    ports:
+      # Loopback-only mapping on an uncommon port to avoid clashing with
+      # the other Postgres servers already running on 5432/5438.
+      - "127.0.0.1:${POSTGRES_PORT:-45532}:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d harness"]
+      interval: 2s
+      timeout: 3s
+      retries: 15
+
+volumes:
+  web_node_modules:
+  web_next:
+  pnpm_store:
+  db_data:
