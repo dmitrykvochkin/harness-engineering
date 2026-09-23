@@ -42,9 +42,11 @@ uv run python classify.py \
   --output results.jsonl
 ```
 
-- **Model.** The default is `nebius:deepseek-ai/DeepSeek-V4.1-Flash` on Nebius AI Studio, which reads `NEBIUS_API_KEY`. `--model` takes any other Pydantic AI `provider:model` string, such as `anthropic:claude-sonnet-5` with `ANTHROPIC_API_KEY`. All three agents use the same model. Nebius responses carry a non-standard `metadata` field that breaks OpenAI schema validation, so `nebius:` models go through a small `NebiusChatModel` subclass that drops it. `--model test` runs offline, but the evidence check rejects its placeholder IDs, so every signal comes back as an error.
+- **Model.** The default is `nebius:deepseek-ai/DeepSeek-V4.1-Flash` on Nebius AI Studio, which reads `NEBIUS_API_KEY`. `--model` takes any other Pydantic AI `provider:model` string, such as `openai:gpt-6-luna` with `OPENAI_API_KEY` (which goes through the Responses API) or `anthropic:claude-sonnet-5` with `ANTHROPIC_API_KEY`. `--reasoning minimal|low|medium|high|xhigh` sets the reasoning effort on models that support it; without it, each model uses its own default. All three agents use the same model. Nebius responses carry a non-standard `metadata` field that breaks OpenAI schema validation, so `nebius:` models go through a small `NebiusChatModel` subclass that drops it. `--model test` runs offline, but the evidence check rejects its placeholder IDs, so every signal comes back as an error.
 - **Input.** The model sees only `run_id` and `events`. Trace metadata (policies, tool semantics, capture status, session note) becomes `ctx-<run_id>-*` context events so detectors can cite it. The script never reads `labels.jsonl` or `split.json`. The whole file is validated before any model call, and a malformed line stops the run with its line number.
-- **Output.** Each record is `{run_id, model, signals, errors}`. A failed detector (API error, output validation that is still invalid after one retry, or evidence that fails the check) gets `null` in `signals` and a message in `errors`. The output file is overwritten on each run.
+- **Evidence check.** This runs as an output validator. If the model cites an ID that isn't in the trace, or gives a `present` verdict without enough evidence, it is asked to fix the output. That uses the single allowed output retry.
+- **Output.** Each record is `{run_id, model, signals, errors}`. A failed detector (API error, or output that is still invalid after the one retry) gets `null` in `signals` and a message in `errors`. The output file is overwritten on each run. `max_tokens` is set to 16384 because reasoning models can use up a provider's default limit before they answer.
+- **Run metadata.** `results.jsonl` gets a companion `results.meta.json` with the model, start and end time, wall time, and seconds per agent run (mean, p50, p95, max). It also holds token usage (requests, input, output, cache and reasoning tokens), cost, settings, a hash of the prompts, and package versions. Everything is broken down per signal and per trace, so runs with different models or prompts can be compared. Cost comes from [`genai-prices`](https://github.com/pydantic/genai-prices), which ships with Pydantic AI and covers Anthropic, OpenAI and others. It has no Nebius prices, so the `PRICES` dict in `classify.py` holds them for DeepSeek-V4.1-Flash, GLM-5.3-Flash and Qwen3.5-397B-A17B. For any other model, add it there or pass `--input-price` and `--output-price` in USD per 1M tokens (cache discounts are ignored). Without prices, cost is `null`.
 - **Exit code.** `0` when every classification completed, `1` when any signal errored, `2` for input or output problems.
 
 Tested with Python 3.14.5, pydantic-ai 2.48.0 and pydantic 2.13.5 against `nebius:deepseek-ai/DeepSeek-V4.1-Flash`.
@@ -77,3 +79,12 @@ uv run harness-upload             # upsert data/conversations/ into Supabase
 ```
 
 The uploader reads `SUPABASE_URL` and `SUPABASE_SECRET_KEY` from the environment or from `ai/.env`. Re-running it is safe: it upserts by key and prunes stale rows for this dataset, and it never touches `signals` or `issues`.
+
+Detector output is a separate step. Apply `supabase/migrations/` (the `signals.verdict` check must allow `error`), then:
+
+```bash
+uv run harness-upload-results --dry-run
+uv run harness-upload-results   # upserts ai/results.jsonl into public.signals
+```
+
+A null signal with an `errors` entry is stored as verdict `error`. Re-running replaces rows for the same run, signal, and model.

@@ -5,19 +5,29 @@ forgetting) over every trace in a JSONL file and writes one result per trace.
 See docs/signal-pipeline-spec.md.
 
     python classify.py --input traces.jsonl --output results.jsonl [--model "$MODEL"]
+
+Alongside the results it writes <output>.meta.json with timing, token usage and cost,
+so runs with different models can be compared.
 """
 
 import argparse
+import hashlib
 import json
 import os
+import platform
 import sys
+import time
+from datetime import UTC, datetime
+from importlib.metadata import version
 from pathlib import Path
 from typing import Literal
 
+from genai_prices import calc_price
 from pydantic import BaseModel, Field
-from pydantic_ai import Agent
-from pydantic_ai.exceptions import ModelHTTPError
+from pydantic_ai import Agent, ModelRetry, RunContext
+from pydantic_ai.exceptions import ModelHTTPError, UnexpectedModelBehavior
 from pydantic_ai.models.openai import OpenAIChatModel
+from pydantic_ai.usage import RunUsage
 
 
 class SignalResult(BaseModel):
@@ -45,7 +55,8 @@ events the capture metadata says were dropped.
 
 Do not infer your signal from a different signal. Write the reason in one or two \
 sentences. If the problem was later corrected, mention the recovery in the reason. \
-evidence_event_ids must be ids that appear in the input; leave it empty only when \
+evidence_event_ids must be ids that appear in the input, copied exactly and in full \
+(for example "evt-0042-010", never a shortened "evt-010"); leave it empty only when \
 nothing supports the verdict."""
 
 FRUSTRATION_INSTRUCTIONS = """\
@@ -93,6 +104,16 @@ DETECTORS = {
 }
 VERDICTS = ["present", "absent", "insufficient_evidence"]
 DEFAULT_MODEL = "nebius:deepseek-ai/DeepSeek-V4.1-Flash"
+# Reasoning models can spend the provider's default output budget before answering.
+MAX_TOKENS = 16384
+OUTPUT_RETRIES = 1
+# USD per 1M (input, output) tokens for models genai-prices doesn't know (Nebius AI Studio
+# list prices, 2026-09-23). --input-price/--output-price override these.
+PRICES = {
+    "nebius:deepseek-ai/DeepSeek-V4.1-Flash": (0.30, 1.20),
+    "nebius:zai-org/GLM-5.3-Flash": (0.15, 0.50),
+    "nebius:Qwen/Qwen3.5-397B-A17B": (0.60, 3.60),
+}
 ENV_FILE = Path(__file__).parent / ".env"
 
 # Event fields passed to the detectors. Span IDs, token usage and latency are left
@@ -220,42 +241,172 @@ def check_evidence(signal, result, model_input):
     return None
 
 
+def evidence_validator(signal):
+    """Output validator: a failed evidence check asks the model to retry (within the
+    single output retry); if the retry also fails, the signal becomes an error."""
+
+    def validate(ctx: RunContext[dict], output: SignalResult) -> SignalResult:
+        problem = check_evidence(signal, output, ctx.deps)
+        if problem:
+            raise ModelRetry(f"{problem}. Cite ids exactly as they appear in the input.")
+        return output
+
+    return validate
+
+
+def first_line(error):
+    return (str(error).splitlines() or [""])[0][:200]
+
+
 def describe_error(error):
     """A short error message without provider payloads."""
     if isinstance(error, ModelHTTPError):
         return f"ModelHTTPError: HTTP {error.status_code} from {error.model_name}"
-    first_line = (str(error).splitlines() or [""])[0][:200]
-    return f"{type(error).__name__}: {first_line}" if first_line else type(error).__name__
+    message = f"{type(error).__name__}: {first_line(error)}".rstrip(": ")
+    # Our own ModelRetry text says why the output was rejected; other causes may hold payloads.
+    if isinstance(error, UnexpectedModelBehavior) and isinstance(error.__cause__, ModelRetry):
+        message += f" ({first_line(error.__cause__)})"
+    return message
 
 
 def classify_trace(agents, trace, model_name):
+    """Return the result record and per-signal stats ({signal: (seconds, RunUsage)})."""
     model_input = build_model_input(trace)
     trace_json = json.dumps(model_input, ensure_ascii=False)
-    signals, errors = {}, {}
+    signals, errors, stats = {}, {}, {}
     for signal, agent in agents.items():
+        usage = RunUsage()  # filled in even when the run fails
+        started = time.perf_counter()
         try:
-            result = agent.run_sync(trace_json).output
+            signals[signal] = agent.run_sync(trace_json, deps=model_input, usage=usage).output
+            signals[signal] = signals[signal].model_dump()
         except Exception as e:
             signals[signal] = None
             errors[signal] = describe_error(e)
-            continue
-        problem = check_evidence(signal, result, model_input)
-        if problem:
-            signals[signal] = None
-            errors[signal] = problem
-        else:
-            signals[signal] = result.model_dump()
-    return {"run_id": trace["run_id"], "model": model_name, "signals": signals, "errors": errors}
+        stats[signal] = (time.perf_counter() - started, usage)
+    record = {"run_id": trace["run_id"], "model": model_name, "signals": signals, "errors": errors}
+    return record, stats
 
 
-def print_summary(counts, processed, with_present, output_path):
+def usage_dict(usage):
+    data = {
+        "requests": usage.requests,
+        "input_tokens": usage.input_tokens,
+        "output_tokens": usage.output_tokens,
+    }
+    if usage.cache_read_tokens:
+        data["cache_read_tokens"] = usage.cache_read_tokens
+    if usage.details:
+        data["details"] = dict(usage.details)
+    return data
+
+
+def cost_usd(usage, model_name, prices):
+    """Cost from --input-price/--output-price or PRICES (USD per 1M tokens), else genai-prices,
+    else None when the model's price is unknown."""
+    if prices:
+        return round((usage.input_tokens * prices[0] + usage.output_tokens * prices[1]) / 1e6, 6)
+    provider, _, model = model_name.partition(":")
+    try:
+        return round(float(calc_price(usage, model, provider_id=provider).total_price), 6)
+    except LookupError:
+        return None
+
+
+def percentile(values, q):
+    ordered = sorted(values)
+    return round(ordered[min(len(ordered) - 1, int(q * len(ordered)))], 2)
+
+
+def build_metadata(args, prices, started_at, seconds, trace_stats, counts):
+    """Run metadata for comparing models: timing, tokens and cost overall and per signal."""
+    total, per_signal = RunUsage(), {}
+    for signal in DETECTORS:
+        usage = RunUsage()
+        signal_seconds = [stats[signal][0] for _, stats in trace_stats]
+        for _, stats in trace_stats:
+            usage.incr(stats[signal][1])
+        total.incr(usage)
+        per_signal[signal] = {
+            "seconds": round(sum(signal_seconds), 2),
+            "usage": usage_dict(usage),
+            "cost_usd": cost_usd(usage, args.model, prices),
+            "verdicts": counts[signal],
+        }
+    call_seconds = [s for _, stats in trace_stats for s, _ in stats.values()]
+    prompts = json.dumps([SHARED_INSTRUCTIONS, DETECTORS], sort_keys=True)
+    return {
+        "model": args.model,
+        "input": str(args.input),
+        "output": str(args.output),
+        "started_at": started_at.isoformat(timespec="seconds"),
+        "finished_at": datetime.now(UTC).isoformat(timespec="seconds"),
+        "duration_seconds": round(seconds, 2),
+        "traces": len(trace_stats),
+        "agent_runs": len(call_seconds),
+        "errors": sum(c["error"] for c in counts.values()),
+        "seconds_per_agent_run": {
+            "mean": round(sum(call_seconds) / len(call_seconds), 2),
+            "p50": percentile(call_seconds, 0.5),
+            "p95": percentile(call_seconds, 0.95),
+            "max": round(max(call_seconds), 2),
+        },
+        "usage": usage_dict(total),
+        "cost_usd": cost_usd(total, args.model, prices),
+        "prices_usd_per_million_tokens": (
+            {"input": prices[0], "output": prices[1]} if prices else "genai-prices"
+        ),
+        "settings": {
+            "max_tokens": MAX_TOKENS,
+            "output_retries": OUTPUT_RETRIES,
+            "reasoning": args.reasoning,
+        },
+        "prompt_sha256": hashlib.sha256(prompts.encode()).hexdigest()[:12],
+        "versions": {
+            "python": platform.python_version(),
+            "pydantic_ai": version("pydantic-ai-slim"),
+            "pydantic": version("pydantic"),
+        },
+        "signals": per_signal,
+        "per_trace": [
+            {
+                "run_id": run_id,
+                "seconds": round(sum(s for s, _ in stats.values()), 2),
+                "signals": {
+                    signal: {"seconds": round(s, 2), **usage_dict(u)}
+                    for signal, (s, u) in stats.items()
+                },
+            }
+            for run_id, stats in trace_stats
+        ],
+    }
+
+
+def print_summary(counts, processed, with_present, output_path, metadata, meta_path):
     print(f"\nProcessed traces: {processed}")
     print(f"Traces with at least one present signal: {with_present}\n")
     columns = VERDICTS + ["error"]
     print(f"{'signal':<18}" + "".join(f"{c:>23}" for c in columns))
     for signal in DETECTORS:
         print(f"{signal:<18}" + "".join(f"{counts[signal][c]:>23}" for c in columns))
+    per_run = metadata["seconds_per_agent_run"]
+    usage = metadata["usage"]
+    cost = metadata["cost_usd"]
+    print(
+        f"\nTime: {metadata['duration_seconds']} s"
+        f" (per agent run: p50 {per_run['p50']} s, p95 {per_run['p95']} s)"
+    )
+    print(
+        f"Tokens: {usage['input_tokens']} in, {usage['output_tokens']} out,"
+        f" {usage['requests']} requests"
+    )
+    print(
+        f"Cost: ${cost:.4f}"
+        if cost is not None
+        else "Cost: unknown (pass --input-price/--output-price in USD per 1M tokens)"
+    )
     print(f"\nResults written to {output_path}")
+    print(f"Run metadata written to {meta_path}")
 
 
 def main():
@@ -265,10 +416,25 @@ def main():
     parser.add_argument(
         "--model", default=DEFAULT_MODEL, help=f"Pydantic AI model (default: {DEFAULT_MODEL})"
     )
+    parser.add_argument(
+        "--reasoning",
+        choices=["minimal", "low", "medium", "high", "xhigh"],
+        help="reasoning effort for models that support it (default: the model's own)",
+    )
+    parser.add_argument("--input-price", type=float, help="USD per 1M input tokens")
+    parser.add_argument("--output-price", type=float, help="USD per 1M output tokens")
     args = parser.parse_args()
     load_env_file(ENV_FILE)
 
-    if args.input.resolve() == args.output.resolve():
+    if (args.input_price is None) != (args.output_price is None):
+        print("error: pass both --input-price and --output-price, or neither", file=sys.stderr)
+        return 2
+    if args.input_price is not None:
+        prices = (args.input_price, args.output_price)
+    else:
+        prices = PRICES.get(args.model)
+    meta_path = args.output.with_suffix(".meta.json")
+    if args.input.resolve() in (args.output.resolve(), meta_path.resolve()):
         print("error: --input and --output must be different files", file=sys.stderr)
         return 2
     try:
@@ -278,24 +444,34 @@ def main():
         return 2
 
     model = build_model(args.model)
+    model_settings = {"max_tokens": MAX_TOKENS}
+    if args.reasoning:
+        model_settings["thinking"] = args.reasoning
     agents = {
         signal: Agent(
             model,
             output_type=SignalResult,
+            deps_type=dict,
             instructions=f"{SHARED_INSTRUCTIONS}\n\n{instructions}",
-            retries={"output": 1},
+            retries={"output": OUTPUT_RETRIES},
+            model_settings=model_settings,
         )
         for signal, instructions in DETECTORS.items()
     }
+    for signal, agent in agents.items():
+        agent.output_validator(evidence_validator(signal))
 
     counts = {signal: dict.fromkeys(VERDICTS + ["error"], 0) for signal in DETECTORS}
     processed = with_present = 0
+    trace_stats = []
+    started_at, started = datetime.now(UTC), time.perf_counter()
     try:
         with args.output.open("w", encoding="utf-8") as out:
             for trace in traces:
-                record = classify_trace(agents, trace, args.model)
+                record, stats = classify_trace(agents, trace, args.model)
                 out.write(json.dumps(record, ensure_ascii=False) + "\n")
                 out.flush()
+                trace_stats.append((record["run_id"], stats))
                 processed += 1
                 for signal, result in record["signals"].items():
                     counts[signal][result["verdict"] if result else "error"] += 1
@@ -306,13 +482,18 @@ def main():
                     + ", ".join(
                         f"{s}={r['verdict'] if r else 'error'}"
                         for s, r in record["signals"].items()
-                    )
+                    ),
+                    flush=True,
                 )
+        metadata = build_metadata(
+            args, prices, started_at, time.perf_counter() - started, trace_stats, counts
+        )
+        meta_path.write_text(json.dumps(metadata, indent=2) + "\n", encoding="utf-8")
     except OSError as e:
-        print(f"error: cannot write {args.output}: {e.strerror}", file=sys.stderr)
+        print(f"error: cannot write output: {e.strerror}", file=sys.stderr)
         return 2
 
-    print_summary(counts, processed, with_present, args.output)
+    print_summary(counts, processed, with_present, args.output, metadata, meta_path)
     return 1 if any(c["error"] for c in counts.values()) else 0
 
 

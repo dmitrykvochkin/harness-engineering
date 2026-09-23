@@ -5,3 +5,6 @@ verify_jwt = false
 
 [functions.issues]
 verify_jwt = false
+
+[functions.runs]
+verify_jwt = false

@@ -12,6 +12,7 @@ dependencies = [
 
 [project.scripts]
 harness-upload = "harness_ai.db.upload:main"
+harness-upload-results = "harness_ai.db.upload_results:main"
 
 [dependency-groups]
 dev = [

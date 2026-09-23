@@ -7,6 +7,7 @@ and grouping stages write the same shape the dashboard reads.
 """
 
 from datetime import datetime
+from enum import StrEnum
 from typing import Any, Literal
 from uuid import UUID
 
@@ -160,13 +161,22 @@ class IssueRow(BaseModel):
     representative_run_ids: list[str] = Field(default_factory=list)
 
 
+class DetectorVerdict(StrEnum):
+    """A detector outcome. `error` means that detector never produced a verdict."""
+
+    PRESENT = "present"
+    ABSENT = "absent"
+    INSUFFICIENT_EVIDENCE = "insufficient_evidence"
+    ERROR = "error"
+
+
 class SignalRow(BaseModel):
     """One detector finding for one signal on one run."""
 
     id: UUID | None = None
     run_id: str
     signal_type: Signal
-    verdict: Verdict
+    verdict: DetectorVerdict
     explanation: str
     evidence_event_ids: list[str] = Field(default_factory=list)
     pattern: str | None = None

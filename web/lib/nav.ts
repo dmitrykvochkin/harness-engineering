@@ -1,11 +1,6 @@
-import {
-  Bug,
-  Inbox,
-  Radar,
-  TrendingDown,
-  Wrench,
-  type LucideIcon,
-} from "lucide-react";
+import { Bug, Inbox, Radar, type LucideIcon } from "lucide-react";
+
+import { signalCatalog } from "./signals";
 
 export type NavSubItem = {
   title: string;
@@ -17,23 +12,26 @@ export type NavItem = {
   title: string;
   url: string;
   icon: LucideIcon;
+  exact?: boolean;
   subItems?: NavSubItem[];
 };
 
 export const navItems: NavItem[] = [
   {
     title: "Inbox",
-    url: "/inbox",
+    url: "/signals",
     icon: Inbox,
+    exact: true,
   },
   {
     title: "Signals",
     url: "/signals",
     icon: Radar,
-    subItems: [
-      { title: "Negative", url: "/signals/negative", icon: TrendingDown },
-      { title: "Tool Errors", url: "/signals/tool-errors", icon: Wrench },
-    ],
+    subItems: signalCatalog.map((signal) => ({
+      title: signal.label,
+      url: `/signals/${signal.slug}`,
+      icon: signal.icon,
+    })),
   },
   {
     title: "Issues",
