@@ -184,6 +184,13 @@ class SignalRow(BaseModel):
     detector_version: str
 
 
+class DefinitionSignalRow(SignalRow):
+    """A finding for a user-created signal: signal_type is the definition's slug."""
+
+    signal_type: str
+    signal_definition_id: UUID
+
+
 def dataset_rows(
     traces: list[Trace], labels: list[RunLabels], split: Split
 ) -> tuple[DatasetRow, list[RunRow], list[EventRow], list[RunLabelRow], list[SignalLabelRow]]:

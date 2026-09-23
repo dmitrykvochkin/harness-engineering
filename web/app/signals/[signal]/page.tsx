@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { DeleteSignalButton } from "@/components/delete-signal-button";
 import { NavPageHeader } from "@/components/nav-page-header";
 import { VerdictBadge } from "@/components/verdict-badge";
-import { getSignals } from "@/lib/data";
+import { getSignalDefinition, getSignals } from "@/lib/data";
 import { countVerdicts } from "@/lib/group";
 import { isVerdict, modelLabel, signalBySlug, verdictLabel, type Verdict } from "@/lib/signals";
 import { cn } from "cn";
@@ -27,7 +28,7 @@ export default async function SignalTypePage({
 }) {
   const { signal: slug } = await params;
   const meta = signalBySlug[slug];
-  if (!meta) notFound();
+  if (!meta) return <DefinedSignalPage slug={slug} />;
 
   const { verdict: requested } = await searchParams;
   const selected: Verdict | "all" =
@@ -110,6 +111,38 @@ export default async function SignalTypePage({
           ))}
         </div>
       )}
+    </div>
+  );
+}
+
+async function DefinedSignalPage({ slug }: { slug: string }) {
+  let definition;
+  try {
+    definition = await getSignalDefinition(slug);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Could not load this signal";
+    return (
+      <div className="flex flex-1 flex-col gap-6 p-6">
+        <NavPageHeader title="Signal" />
+        <p className="text-sm text-muted-foreground">{message}</p>
+      </div>
+    );
+  }
+
+  if (!definition) notFound();
+
+  return (
+    <div className="flex flex-1 flex-col gap-6 p-6">
+      <NavPageHeader
+        title={definition.title}
+        description="Saved signal. Evaluation runs separately."
+        action={<DeleteSignalButton slug={definition.slug} />}
+      />
+      <div className="rounded-xl border bg-card p-4">
+        <p className="text-xs font-medium text-muted-foreground">Prompt</p>
+        <p className="mt-2 text-sm leading-relaxed whitespace-pre-wrap">{definition.prompt}</p>
+      </div>
+      <p className="text-sm text-muted-foreground">No evaluations yet.</p>
     </div>
   );
 }

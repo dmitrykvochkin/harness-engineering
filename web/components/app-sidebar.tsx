@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { ChevronsUpDown, Radar, Settings } from "lucide-react";
+import { ChevronsUpDown, Radar, Settings, Sparkles } from "lucide-react";
 
 import {
   Collapsible,
@@ -25,6 +25,7 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import { navItems, type NavItem } from "@/lib/nav";
+import type { SignalDefinition } from "@/lib/signal-definitions";
 
 function isActive(url: string, pathname: string, exact = false) {
   if (url === "/" || exact) return pathname === url;
@@ -65,7 +66,7 @@ function CollapsibleNavItem({ item, pathname }: { item: NavItem; pathname: strin
                   <SidebarMenuSubButton asChild isActive={subActive}>
                     <Link href={sub.url}>
                       {sub.icon && <sub.icon />}
-                      <span>{sub.title}</span>
+                      <span className="truncate">{sub.title}</span>
                     </Link>
                   </SidebarMenuSubButton>
                 </SidebarMenuSubItem>
@@ -78,8 +79,22 @@ function CollapsibleNavItem({ item, pathname }: { item: NavItem; pathname: strin
   );
 }
 
-export function AppSidebar() {
+export function AppSidebar({ signalDefinitions }: { signalDefinitions: SignalDefinition[] }) {
   const pathname = usePathname();
+  const items = navItems.map((item) => {
+    if (item.title !== "Signals" || !item.subItems) return item;
+    return {
+      ...item,
+      subItems: [
+        ...item.subItems,
+        ...signalDefinitions.map((definition) => ({
+          title: definition.title,
+          url: `/signals/${definition.slug}`,
+          icon: Sparkles,
+        })),
+      ],
+    };
+  });
 
   return (
     <Sidebar collapsible="offcanvas">
@@ -106,7 +121,7 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navItems.map((item) => {
+              {items.map((item) => {
                 const active = isActive(item.url, pathname, item.exact);
 
                 if (item.subItems) {

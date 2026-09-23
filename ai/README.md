@@ -49,7 +49,16 @@ uv run python classify.py \
 - **Run metadata.** `results.jsonl` gets a companion `results.meta.json` with the model, start and end time, wall time, and seconds per agent run (mean, p50, p95, max). It also holds token usage (requests, input, output, cache and reasoning tokens), cost, settings, a hash of the prompts, and package versions. Everything is broken down per signal and per trace, so runs with different models or prompts can be compared. Cost comes from [`genai-prices`](https://github.com/pydantic/genai-prices), which ships with Pydantic AI and covers Anthropic, OpenAI and others. It has no Nebius prices, so the `PRICES` dict in `classify.py` holds them for DeepSeek-V4.1-Flash, GLM-5.3-Flash and Qwen3.5-397B-A17B. For any other model, add it there or pass `--input-price` and `--output-price` in USD per 1M tokens (cache discounts are ignored). Without prices, cost is `null`.
 - **Exit code.** `0` when every classification completed, `1` when any signal errored, `2` for input or output problems.
 
-Tested with Python 3.14.5, pydantic-ai 2.48.0 and pydantic 2.13.5 against `nebius:deepseek-ai/DeepSeek-V4.1-Flash`.
+Tested with Python 3.14.5, pydantic-ai 2.48.0 and pydantic 2.13.5 against `nebius:deepseek-ai/DeepSeek-V4.1-Flash` and `openai:gpt-6-luna`.
+
+### Comparing models (`report.py`)
+
+`report.py` scores finished runs against `labels.jsonl` and writes a single-page HTML report. It covers accuracy (overall and held-out), per-signal precision, recall and F1, evidence overlap, cost, time and tokens. It reads labels only to score results after a run; `classify.py` never sees them.
+
+```bash
+uv run python report.py results-gpt-6-luna-low.jsonl runs/deepseek-v4.1-flash.jsonl \
+  --notes runs/notes.html --output runs/report.html
+```
 
 ## Data
 
@@ -88,3 +97,15 @@ uv run harness-upload-results   # upserts ai/results.jsonl into public.signals
 ```
 
 A null signal with an `errors` entry is stored as verdict `error`. Re-running replaces rows for the same run, signal, and model.
+
+### User-created signals (`classify_signal.py`)
+
+Signals created in the web app live in `public.signal_definitions` (title + prompt). `classify_signal.py` runs one detector per definition over `data/conversations/traces.jsonl` and upserts the findings straight into `public.signals`, with `signal_type` set to the definition's slug and `signal_definition_id` pointing at it (deleting the definition deletes its findings). It uses the same shared instructions, model input and evidence check as `classify.py`, with the saved prompt in place of a built-in signal's instructions.
+
+```bash
+uv run python classify_signal.py                      # definitions with no findings for --model yet
+uv run python classify_signal.py late-refund          # re-run specific definitions by slug
+uv run python classify_signal.py --all --limit 2 --dry-run   # try every definition on 2 traces, write nothing
+```
+
+`--model` and `--reasoning` work as in `classify.py`; `--concurrency` (default 4) sets how many traces are classified at once. Each finding is written as soon as it is ready, and after a full run (no `--limit`) findings for runs no longer in the input are removed. It needs the `signals_for_definitions` migration and the dataset already uploaded with `harness-upload`.

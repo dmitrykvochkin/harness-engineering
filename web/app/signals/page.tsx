@@ -1,8 +1,11 @@
 import Link from "next/link";
 
+import { CreateSignalButton } from "@/components/create-signal-button";
+import { FailureTimelineChart } from "@/components/failure-timeline";
 import { NavPageHeader } from "@/components/nav-page-header";
 import { VerdictBadge } from "@/components/verdict-badge";
-import { getSignals } from "@/lib/data";
+import { getRunStarts, getSignals } from "@/lib/data";
+import { buildFailureTimeline } from "@/lib/failure-timeline";
 import { countVerdicts, groupByRun } from "@/lib/group";
 import { modelLabel, signalCatalog } from "@/lib/signals";
 
@@ -19,8 +22,9 @@ function LoadError({ message }: { message: string }) {
 
 export default async function SignalsPage() {
   let signals;
+  let runStarts;
   try {
-    signals = await getSignals();
+    [signals, runStarts] = await Promise.all([getSignals(), getRunStarts()]);
   } catch (error) {
     const message = error instanceof Error ? error.message : "Could not load signals";
     return (
@@ -28,6 +32,7 @@ export default async function SignalsPage() {
         <NavPageHeader
           title="Signals"
           description="What the detectors found in each conversation."
+          action={<CreateSignalButton />}
         />
         <LoadError message={message} />
       </div>
@@ -36,6 +41,7 @@ export default async function SignalsPage() {
 
   const groups = groupByRun(signals);
   const runCount = groups.length;
+  const timeline = buildFailureTimeline(signals, runStarts);
 
   return (
     <div className="flex flex-1 flex-col gap-6 p-6">
@@ -46,6 +52,7 @@ export default async function SignalsPage() {
             ? "What the detectors found in each conversation."
             : `What the detectors found across ${runCount} conversations.`
         }
+        action={<CreateSignalButton />}
       />
 
       {runCount === 0 ? (
@@ -55,6 +62,8 @@ export default async function SignalsPage() {
         </div>
       ) : (
         <>
+          {timeline && <FailureTimelineChart timeline={timeline} />}
+
           <div className="grid gap-4 md:grid-cols-3">
             {signalCatalog.map((meta) => {
               const counts = countVerdicts(signals.filter((signal) => signal.signal_type === meta.type));

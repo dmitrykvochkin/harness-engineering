@@ -1,0 +1,51 @@
+run-0001: user_frustration=present, task_failure=absent, forgetting=absent
+run-0002: user_frustration=present, task_failure=absent, forgetting=absent
+run-0003: user_frustration=absent, task_failure=absent, forgetting=insufficient_evidence
+run-0004: user_frustration=absent, task_failure=present, forgetting=present
+run-0005: user_frustration=absent, task_failure=absent, forgetting=absent
+run-0006: user_frustration=absent, task_failure=present, forgetting=absent
+run-0007: user_frustration=present, task_failure=present, forgetting=present
+run-0008: user_frustration=absent, task_failure=absent, forgetting=absent
+run-0009: user_frustration=absent, task_failure=present, forgetting=absent
+run-0010: user_frustration=present, task_failure=absent, forgetting=present
+run-0011: user_frustration=present, task_failure=present, forgetting=present
+run-0012: user_frustration=absent, task_failure=present, forgetting=absent
+run-0013: user_frustration=present, task_failure=present, forgetting=present
+run-0014: user_frustration=present, task_failure=absent, forgetting=insufficient_evidence
+run-0015: user_frustration=absent, task_failure=present, forgetting=absent
+run-0016: user_frustration=insufficient_evidence, task_failure=insufficient_evidence, forgetting=insufficient_evidence
+run-0017: user_frustration=absent, task_failure=absent, forgetting=absent
+run-0018: user_frustration=present, task_failure=present, forgetting=absent
+run-0019: user_frustration=present, task_failure=present, forgetting=present
+run-0020: user_frustration=absent, task_failure=absent, forgetting=present
+run-0021: user_frustration=absent, task_failure=absent, forgetting=absent
+run-0022: user_frustration=absent, task_failure=absent, forgetting=absent
+run-0023: user_frustration=present, task_failure=absent, forgetting=present
+run-0024: user_frustration=present, task_failure=present, forgetting=absent
+run-0025: user_frustration=present, task_failure=present, forgetting=present
+run-0026: user_frustration=absent, task_failure=absent, forgetting=absent
+run-0027: user_frustration=absent, task_failure=present, forgetting=present
+run-0028: user_frustration=present, task_failure=absent, forgetting=present
+run-0029: user_frustration=absent, task_failure=absent, forgetting=absent
+run-0030: user_frustration=absent, task_failure=absent, forgetting=absent
+run-0031: user_frustration=absent, task_failure=present, forgetting=absent
+run-0032: user_frustration=absent, task_failure=absent, forgetting=insufficient_evidence
+run-0033: user_frustration=absent, task_failure=insufficient_evidence, forgetting=absent
+run-0034: user_frustration=absent, task_failure=absent, forgetting=absent
+run-0035: user_frustration=absent, task_failure=present, forgetting=absent
+run-0036: user_frustration=absent, task_failure=absent, forgetting=absent
+
+Processed traces: 36
+Traces with at least one present signal: 22
+
+signal                            present                 absent  insufficient_evidence                  error
+user_frustration                       13                     22                      1                      0
+task_failure                           15                     19                      2                      0
+forgetting                             11                     21                      4                      0
+
+Time: 554.87 s (per agent run: p50 2.85 s, p95 19.47 s)
+Tokens: 328890 in, 53087 out, 108 requests
+Cost: $0.1624
+
+Results written to runs/deepseek-v4.1-flash.jsonl
+Run metadata written to runs/deepseek-v4.1-flash.meta.json

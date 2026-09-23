@@ -1,0 +1,1622 @@
+{
+  "model": "nebius:deepseek-ai/DeepSeek-V4.1-Flash",
+  "input": "../data/conversations/traces.jsonl",
+  "output": "runs/deepseek-v4.1-flash.jsonl",
+  "started_at": "2026-09-23T11:37:03+00:00",
+  "finished_at": "2026-09-23T11:46:17+00:00",
+  "duration_seconds": 554.87,
+  "traces": 36,
+  "agent_runs": 108,
+  "errors": 0,
+  "seconds_per_agent_run": {
+    "mean": 5.14,
+    "p50": 2.85,
+    "p95": 19.47,
+    "max": 71.66
+  },
+  "usage": {
+    "requests": 108,
+    "input_tokens": 328890,
+    "output_tokens": 53087,
+    "cache_read_tokens": 81152,
+    "details": {
+      "prompt_cache_hit_tokens": 81152,
+      "prompt_cache_miss_tokens": 247738,
+      "reasoning_tokens": 34416
+    }
+  },
+  "cost_usd": 0.162371,
+  "prices_usd_per_million_tokens": {
+    "input": 0.3,
+    "output": 1.2
+  },
+  "settings": {
+    "max_tokens": 16384,
+    "output_retries": 1,
+    "reasoning": null
+  },
+  "prompt_sha256": "8eef4f2ec415",
+  "versions": {
+    "python": "3.14.5",
+    "pydantic_ai": "2.48.0",
+    "pydantic": "2.13.5"
+  },
+  "signals": {
+    "user_frustration": {
+      "seconds": 137.13,
+      "usage": {
+        "requests": 36,
+        "input_tokens": 108742,
+        "output_tokens": 9147,
+        "cache_read_tokens": 26880,
+        "details": {
+          "prompt_cache_hit_tokens": 26880,
+          "prompt_cache_miss_tokens": 81862,
+          "reasoning_tokens": 3948
+        }
+      },
+      "cost_usd": 0.043599,
+      "verdicts": {
+        "present": 13,
+        "absent": 22,
+        "insufficient_evidence": 1,
+        "error": 0
+      }
+    },
+    "task_failure": {
+      "seconds": 166.7,
+      "usage": {
+        "requests": 36,
+        "input_tokens": 110074,
+        "output_tokens": 20369,
+        "cache_read_tokens": 27136,
+        "details": {
+          "prompt_cache_hit_tokens": 27136,
+          "prompt_cache_miss_tokens": 82938,
+          "reasoning_tokens": 13217
+        }
+      },
+      "cost_usd": 0.057465,
+      "verdicts": {
+        "present": 15,
+        "absent": 19,
+        "insufficient_evidence": 2,
+        "error": 0
+      }
+    },
+    "forgetting": {
+      "seconds": 250.98,
+      "usage": {
+        "requests": 36,
+        "input_tokens": 110074,
+        "output_tokens": 23571,
+        "cache_read_tokens": 27136,
+        "details": {
+          "prompt_cache_hit_tokens": 27136,
+          "prompt_cache_miss_tokens": 82938,
+          "reasoning_tokens": 17251
+        }
+      },
+      "cost_usd": 0.061307,
+      "verdicts": {
+        "present": 11,
+        "absent": 21,
+        "insufficient_evidence": 4,
+        "error": 0
+      }
+    }
+  },
+  "per_trace": [
+    {
+      "run_id": "run-0001",
+      "seconds": 35.7,
+      "signals": {
+        "user_frustration": {
+          "seconds": 24.74,
+          "requests": 1,
+          "input_tokens": 2714,
+          "output_tokens": 371,
+          "details": {
+            "prompt_cache_hit_tokens": 0,
+            "prompt_cache_miss_tokens": 2714,
+            "reasoning_tokens": 208
+          }
+        },
+        "task_failure": {
+          "seconds": 4.28,
+          "requests": 1,
+          "input_tokens": 2751,
+          "output_tokens": 477,
+          "cache_read_tokens": 256,
+          "details": {
+            "prompt_cache_hit_tokens": 256,
+            "prompt_cache_miss_tokens": 2495,
+            "reasoning_tokens": 282
+          }
+        },
+        "forgetting": {
+          "seconds": 6.68,
+          "requests": 1,
+          "input_tokens": 2751,
+          "output_tokens": 243,
+          "cache_read_tokens": 256,
+          "details": {
+            "prompt_cache_hit_tokens": 256,
+            "prompt_cache_miss_tokens": 2495,
+            "reasoning_tokens": 120
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0002",
+      "seconds": 24.43,
+      "signals": {
+        "user_frustration": {
+          "seconds": 16.02,
+          "requests": 1,
+          "input_tokens": 2653,
+          "output_tokens": 665,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 1885,
+            "reasoning_tokens": 523
+          }
+        },
+        "task_failure": {
+          "seconds": 5.65,
+          "requests": 1,
+          "input_tokens": 2690,
+          "output_tokens": 752,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 1922,
+            "reasoning_tokens": 552
+          }
+        },
+        "forgetting": {
+          "seconds": 2.76,
+          "requests": 1,
+          "input_tokens": 2690,
+          "output_tokens": 269,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 1922,
+            "reasoning_tokens": 80
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0003",
+      "seconds": 76.23,
+      "signals": {
+        "user_frustration": {
+          "seconds": 1.72,
+          "requests": 1,
+          "input_tokens": 2435,
+          "output_tokens": 177,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 1667,
+            "reasoning_tokens": 39
+          }
+        },
+        "task_failure": {
+          "seconds": 2.85,
+          "requests": 1,
+          "input_tokens": 2472,
+          "output_tokens": 366,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 1704,
+            "reasoning_tokens": 187
+          }
+        },
+        "forgetting": {
+          "seconds": 71.66,
+          "requests": 1,
+          "input_tokens": 2472,
+          "output_tokens": 3601,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 1704,
+            "reasoning_tokens": 3380
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0004",
+      "seconds": 17.83,
+      "signals": {
+        "user_frustration": {
+          "seconds": 5.56,
+          "requests": 1,
+          "input_tokens": 3082,
+          "output_tokens": 379,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2314,
+            "reasoning_tokens": 225
+          }
+        },
+        "task_failure": {
+          "seconds": 4.78,
+          "requests": 1,
+          "input_tokens": 3119,
+          "output_tokens": 289,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2351,
+            "reasoning_tokens": 100
+          }
+        },
+        "forgetting": {
+          "seconds": 7.48,
+          "requests": 1,
+          "input_tokens": 3119,
+          "output_tokens": 535,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2351,
+            "reasoning_tokens": 352
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0005",
+      "seconds": 9.59,
+      "signals": {
+        "user_frustration": {
+          "seconds": 2.37,
+          "requests": 1,
+          "input_tokens": 2763,
+          "output_tokens": 170,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 1995,
+            "reasoning_tokens": 26
+          }
+        },
+        "task_failure": {
+          "seconds": 3.37,
+          "requests": 1,
+          "input_tokens": 2800,
+          "output_tokens": 277,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2032,
+            "reasoning_tokens": 102
+          }
+        },
+        "forgetting": {
+          "seconds": 3.86,
+          "requests": 1,
+          "input_tokens": 2800,
+          "output_tokens": 218,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2032,
+            "reasoning_tokens": 42
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0006",
+      "seconds": 41.61,
+      "signals": {
+        "user_frustration": {
+          "seconds": 6.05,
+          "requests": 1,
+          "input_tokens": 3057,
+          "output_tokens": 449,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2289,
+            "reasoning_tokens": 300
+          }
+        },
+        "task_failure": {
+          "seconds": 8.26,
+          "requests": 1,
+          "input_tokens": 3094,
+          "output_tokens": 624,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2326,
+            "reasoning_tokens": 416
+          }
+        },
+        "forgetting": {
+          "seconds": 27.3,
+          "requests": 1,
+          "input_tokens": 3094,
+          "output_tokens": 2300,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2326,
+            "reasoning_tokens": 2153
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0007",
+      "seconds": 15.07,
+      "signals": {
+        "user_frustration": {
+          "seconds": 2.3,
+          "requests": 1,
+          "input_tokens": 2825,
+          "output_tokens": 231,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2057,
+            "reasoning_tokens": 99
+          }
+        },
+        "task_failure": {
+          "seconds": 3.31,
+          "requests": 1,
+          "input_tokens": 2862,
+          "output_tokens": 345,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2094,
+            "reasoning_tokens": 132
+          }
+        },
+        "forgetting": {
+          "seconds": 9.47,
+          "requests": 1,
+          "input_tokens": 2862,
+          "output_tokens": 1089,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2094,
+            "reasoning_tokens": 881
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0008",
+      "seconds": 8.23,
+      "signals": {
+        "user_frustration": {
+          "seconds": 1.73,
+          "requests": 1,
+          "input_tokens": 2906,
+          "output_tokens": 138,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2138,
+            "reasoning_tokens": 14
+          }
+        },
+        "task_failure": {
+          "seconds": 4.03,
+          "requests": 1,
+          "input_tokens": 2943,
+          "output_tokens": 422,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2175,
+            "reasoning_tokens": 218
+          }
+        },
+        "forgetting": {
+          "seconds": 2.47,
+          "requests": 1,
+          "input_tokens": 2943,
+          "output_tokens": 313,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2175,
+            "reasoning_tokens": 136
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0009",
+      "seconds": 6.88,
+      "signals": {
+        "user_frustration": {
+          "seconds": 1.73,
+          "requests": 1,
+          "input_tokens": 3230,
+          "output_tokens": 181,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2462,
+            "reasoning_tokens": 47
+          }
+        },
+        "task_failure": {
+          "seconds": 1.86,
+          "requests": 1,
+          "input_tokens": 3267,
+          "output_tokens": 259,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2499,
+            "reasoning_tokens": 67
+          }
+        },
+        "forgetting": {
+          "seconds": 3.29,
+          "requests": 1,
+          "input_tokens": 3267,
+          "output_tokens": 475,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2499,
+            "reasoning_tokens": 322
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0010",
+      "seconds": 11.12,
+      "signals": {
+        "user_frustration": {
+          "seconds": 2.43,
+          "requests": 1,
+          "input_tokens": 3842,
+          "output_tokens": 221,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 3074,
+            "reasoning_tokens": 71
+          }
+        },
+        "task_failure": {
+          "seconds": 3.77,
+          "requests": 1,
+          "input_tokens": 3879,
+          "output_tokens": 437,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 3111,
+            "reasoning_tokens": 253
+          }
+        },
+        "forgetting": {
+          "seconds": 4.93,
+          "requests": 1,
+          "input_tokens": 3879,
+          "output_tokens": 354,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 3111,
+            "reasoning_tokens": 126
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0011",
+      "seconds": 6.79,
+      "signals": {
+        "user_frustration": {
+          "seconds": 2.13,
+          "requests": 1,
+          "input_tokens": 3557,
+          "output_tokens": 271,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2789,
+            "reasoning_tokens": 75
+          }
+        },
+        "task_failure": {
+          "seconds": 2.23,
+          "requests": 1,
+          "input_tokens": 3594,
+          "output_tokens": 313,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2826,
+            "reasoning_tokens": 91
+          }
+        },
+        "forgetting": {
+          "seconds": 2.43,
+          "requests": 1,
+          "input_tokens": 3594,
+          "output_tokens": 362,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2826,
+            "reasoning_tokens": 154
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0012",
+      "seconds": 21.72,
+      "signals": {
+        "user_frustration": {
+          "seconds": 2.13,
+          "requests": 1,
+          "input_tokens": 3155,
+          "output_tokens": 242,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2387,
+            "reasoning_tokens": 101
+          }
+        },
+        "task_failure": {
+          "seconds": 16.06,
+          "requests": 1,
+          "input_tokens": 3192,
+          "output_tokens": 2643,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2424,
+            "reasoning_tokens": 2404
+          }
+        },
+        "forgetting": {
+          "seconds": 3.53,
+          "requests": 1,
+          "input_tokens": 3192,
+          "output_tokens": 327,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2424,
+            "reasoning_tokens": 167
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0013",
+      "seconds": 5.85,
+      "signals": {
+        "user_frustration": {
+          "seconds": 1.53,
+          "requests": 1,
+          "input_tokens": 2712,
+          "output_tokens": 218,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 1944,
+            "reasoning_tokens": 60
+          }
+        },
+        "task_failure": {
+          "seconds": 2.31,
+          "requests": 1,
+          "input_tokens": 2749,
+          "output_tokens": 401,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 1981,
+            "reasoning_tokens": 163
+          }
+        },
+        "forgetting": {
+          "seconds": 2.0,
+          "requests": 1,
+          "input_tokens": 2749,
+          "output_tokens": 290,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 1981,
+            "reasoning_tokens": 119
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0014",
+      "seconds": 26.19,
+      "signals": {
+        "user_frustration": {
+          "seconds": 1.67,
+          "requests": 1,
+          "input_tokens": 3293,
+          "output_tokens": 223,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2525,
+            "reasoning_tokens": 58
+          }
+        },
+        "task_failure": {
+          "seconds": 2.58,
+          "requests": 1,
+          "input_tokens": 3330,
+          "output_tokens": 408,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2562,
+            "reasoning_tokens": 197
+          }
+        },
+        "forgetting": {
+          "seconds": 21.95,
+          "requests": 1,
+          "input_tokens": 3330,
+          "output_tokens": 3339,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2562,
+            "reasoning_tokens": 3198
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0015",
+      "seconds": 8.49,
+      "signals": {
+        "user_frustration": {
+          "seconds": 1.75,
+          "requests": 1,
+          "input_tokens": 2738,
+          "output_tokens": 202,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 1970,
+            "reasoning_tokens": 82
+          }
+        },
+        "task_failure": {
+          "seconds": 2.06,
+          "requests": 1,
+          "input_tokens": 2775,
+          "output_tokens": 258,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2007,
+            "reasoning_tokens": 74
+          }
+        },
+        "forgetting": {
+          "seconds": 4.68,
+          "requests": 1,
+          "input_tokens": 2775,
+          "output_tokens": 519,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2007,
+            "reasoning_tokens": 370
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0016",
+      "seconds": 25.18,
+      "signals": {
+        "user_frustration": {
+          "seconds": 2.18,
+          "requests": 1,
+          "input_tokens": 1938,
+          "output_tokens": 286,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 1170,
+            "reasoning_tokens": 130
+          }
+        },
+        "task_failure": {
+          "seconds": 20.25,
+          "requests": 1,
+          "input_tokens": 1975,
+          "output_tokens": 1776,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 1207,
+            "reasoning_tokens": 1579
+          }
+        },
+        "forgetting": {
+          "seconds": 2.75,
+          "requests": 1,
+          "input_tokens": 1975,
+          "output_tokens": 382,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 1207,
+            "reasoning_tokens": 216
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0017",
+      "seconds": 10.53,
+      "signals": {
+        "user_frustration": {
+          "seconds": 3.42,
+          "requests": 1,
+          "input_tokens": 3176,
+          "output_tokens": 407,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2408,
+            "reasoning_tokens": 249
+          }
+        },
+        "task_failure": {
+          "seconds": 4.15,
+          "requests": 1,
+          "input_tokens": 3213,
+          "output_tokens": 551,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2445,
+            "reasoning_tokens": 335
+          }
+        },
+        "forgetting": {
+          "seconds": 2.96,
+          "requests": 1,
+          "input_tokens": 3213,
+          "output_tokens": 427,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2445,
+            "reasoning_tokens": 269
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0018",
+      "seconds": 12.29,
+      "signals": {
+        "user_frustration": {
+          "seconds": 1.98,
+          "requests": 1,
+          "input_tokens": 2737,
+          "output_tokens": 279,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 1969,
+            "reasoning_tokens": 92
+          }
+        },
+        "task_failure": {
+          "seconds": 7.57,
+          "requests": 1,
+          "input_tokens": 2774,
+          "output_tokens": 817,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2006,
+            "reasoning_tokens": 602
+          }
+        },
+        "forgetting": {
+          "seconds": 2.73,
+          "requests": 1,
+          "input_tokens": 2774,
+          "output_tokens": 393,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2006,
+            "reasoning_tokens": 221
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0019",
+      "seconds": 35.62,
+      "signals": {
+        "user_frustration": {
+          "seconds": 19.47,
+          "requests": 1,
+          "input_tokens": 3167,
+          "output_tokens": 457,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2399,
+            "reasoning_tokens": 285
+          }
+        },
+        "task_failure": {
+          "seconds": 13.32,
+          "requests": 1,
+          "input_tokens": 3204,
+          "output_tokens": 1668,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2436,
+            "reasoning_tokens": 1465
+          }
+        },
+        "forgetting": {
+          "seconds": 2.84,
+          "requests": 1,
+          "input_tokens": 3204,
+          "output_tokens": 332,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2436,
+            "reasoning_tokens": 147
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0020",
+      "seconds": 9.18,
+      "signals": {
+        "user_frustration": {
+          "seconds": 1.68,
+          "requests": 1,
+          "input_tokens": 3511,
+          "output_tokens": 123,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2743,
+            "reasoning_tokens": 14
+          }
+        },
+        "task_failure": {
+          "seconds": 3.39,
+          "requests": 1,
+          "input_tokens": 3548,
+          "output_tokens": 356,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2780,
+            "reasoning_tokens": 177
+          }
+        },
+        "forgetting": {
+          "seconds": 4.1,
+          "requests": 1,
+          "input_tokens": 3548,
+          "output_tokens": 411,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2780,
+            "reasoning_tokens": 232
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0021",
+      "seconds": 6.52,
+      "signals": {
+        "user_frustration": {
+          "seconds": 1.68,
+          "requests": 1,
+          "input_tokens": 2998,
+          "output_tokens": 148,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2230,
+            "reasoning_tokens": 20
+          }
+        },
+        "task_failure": {
+          "seconds": 2.51,
+          "requests": 1,
+          "input_tokens": 3035,
+          "output_tokens": 285,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2267,
+            "reasoning_tokens": 114
+          }
+        },
+        "forgetting": {
+          "seconds": 2.33,
+          "requests": 1,
+          "input_tokens": 3035,
+          "output_tokens": 230,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2267,
+            "reasoning_tokens": 57
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0022",
+      "seconds": 12.1,
+      "signals": {
+        "user_frustration": {
+          "seconds": 1.79,
+          "requests": 1,
+          "input_tokens": 3224,
+          "output_tokens": 181,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2456,
+            "reasoning_tokens": 44
+          }
+        },
+        "task_failure": {
+          "seconds": 6.27,
+          "requests": 1,
+          "input_tokens": 3261,
+          "output_tokens": 822,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2493,
+            "reasoning_tokens": 640
+          }
+        },
+        "forgetting": {
+          "seconds": 4.04,
+          "requests": 1,
+          "input_tokens": 3261,
+          "output_tokens": 501,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2493,
+            "reasoning_tokens": 290
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0023",
+      "seconds": 9.78,
+      "signals": {
+        "user_frustration": {
+          "seconds": 4.36,
+          "requests": 1,
+          "input_tokens": 3432,
+          "output_tokens": 534,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2664,
+            "reasoning_tokens": 336
+          }
+        },
+        "task_failure": {
+          "seconds": 3.08,
+          "requests": 1,
+          "input_tokens": 3469,
+          "output_tokens": 382,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2701,
+            "reasoning_tokens": 174
+          }
+        },
+        "forgetting": {
+          "seconds": 2.33,
+          "requests": 1,
+          "input_tokens": 3469,
+          "output_tokens": 277,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2701,
+            "reasoning_tokens": 101
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0024",
+      "seconds": 11.15,
+      "signals": {
+        "user_frustration": {
+          "seconds": 2.12,
+          "requests": 1,
+          "input_tokens": 3471,
+          "output_tokens": 249,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2703,
+            "reasoning_tokens": 71
+          }
+        },
+        "task_failure": {
+          "seconds": 1.87,
+          "requests": 1,
+          "input_tokens": 3508,
+          "output_tokens": 258,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2740,
+            "reasoning_tokens": 81
+          }
+        },
+        "forgetting": {
+          "seconds": 7.15,
+          "requests": 1,
+          "input_tokens": 3508,
+          "output_tokens": 1120,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2740,
+            "reasoning_tokens": 912
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0025",
+      "seconds": 10.1,
+      "signals": {
+        "user_frustration": {
+          "seconds": 2.04,
+          "requests": 1,
+          "input_tokens": 3136,
+          "output_tokens": 237,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2368,
+            "reasoning_tokens": 82
+          }
+        },
+        "task_failure": {
+          "seconds": 4.0,
+          "requests": 1,
+          "input_tokens": 3173,
+          "output_tokens": 588,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2405,
+            "reasoning_tokens": 384
+          }
+        },
+        "forgetting": {
+          "seconds": 4.07,
+          "requests": 1,
+          "input_tokens": 3173,
+          "output_tokens": 528,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2405,
+            "reasoning_tokens": 335
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0026",
+      "seconds": 5.15,
+      "signals": {
+        "user_frustration": {
+          "seconds": 1.48,
+          "requests": 1,
+          "input_tokens": 2989,
+          "output_tokens": 150,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2221,
+            "reasoning_tokens": 39
+          }
+        },
+        "task_failure": {
+          "seconds": 1.66,
+          "requests": 1,
+          "input_tokens": 3026,
+          "output_tokens": 222,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2258,
+            "reasoning_tokens": 47
+          }
+        },
+        "forgetting": {
+          "seconds": 2.01,
+          "requests": 1,
+          "input_tokens": 3026,
+          "output_tokens": 214,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2258,
+            "reasoning_tokens": 85
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0027",
+      "seconds": 7.83,
+      "signals": {
+        "user_frustration": {
+          "seconds": 2.4,
+          "requests": 1,
+          "input_tokens": 3026,
+          "output_tokens": 186,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2258,
+            "reasoning_tokens": 55
+          }
+        },
+        "task_failure": {
+          "seconds": 2.44,
+          "requests": 1,
+          "input_tokens": 3063,
+          "output_tokens": 389,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2295,
+            "reasoning_tokens": 160
+          }
+        },
+        "forgetting": {
+          "seconds": 2.99,
+          "requests": 1,
+          "input_tokens": 3063,
+          "output_tokens": 414,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2295,
+            "reasoning_tokens": 191
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0028",
+      "seconds": 7.12,
+      "signals": {
+        "user_frustration": {
+          "seconds": 2.14,
+          "requests": 1,
+          "input_tokens": 3526,
+          "output_tokens": 225,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2758,
+            "reasoning_tokens": 79
+          }
+        },
+        "task_failure": {
+          "seconds": 3.06,
+          "requests": 1,
+          "input_tokens": 3563,
+          "output_tokens": 469,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2795,
+            "reasoning_tokens": 235
+          }
+        },
+        "forgetting": {
+          "seconds": 1.93,
+          "requests": 1,
+          "input_tokens": 3563,
+          "output_tokens": 289,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2795,
+            "reasoning_tokens": 93
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0029",
+      "seconds": 10.05,
+      "signals": {
+        "user_frustration": {
+          "seconds": 2.95,
+          "requests": 1,
+          "input_tokens": 3380,
+          "output_tokens": 260,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2612,
+            "reasoning_tokens": 103
+          }
+        },
+        "task_failure": {
+          "seconds": 4.18,
+          "requests": 1,
+          "input_tokens": 3417,
+          "output_tokens": 646,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2649,
+            "reasoning_tokens": 399
+          }
+        },
+        "forgetting": {
+          "seconds": 2.92,
+          "requests": 1,
+          "input_tokens": 3417,
+          "output_tokens": 313,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2649,
+            "reasoning_tokens": 149
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0030",
+      "seconds": 6.89,
+      "signals": {
+        "user_frustration": {
+          "seconds": 1.92,
+          "requests": 1,
+          "input_tokens": 2885,
+          "output_tokens": 204,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2117,
+            "reasoning_tokens": 89
+          }
+        },
+        "task_failure": {
+          "seconds": 2.35,
+          "requests": 1,
+          "input_tokens": 2922,
+          "output_tokens": 402,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2154,
+            "reasoning_tokens": 181
+          }
+        },
+        "forgetting": {
+          "seconds": 2.62,
+          "requests": 1,
+          "input_tokens": 2922,
+          "output_tokens": 258,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2154,
+            "reasoning_tokens": 120
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0031",
+      "seconds": 8.91,
+      "signals": {
+        "user_frustration": {
+          "seconds": 2.45,
+          "requests": 1,
+          "input_tokens": 3239,
+          "output_tokens": 202,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2471,
+            "reasoning_tokens": 74
+          }
+        },
+        "task_failure": {
+          "seconds": 2.17,
+          "requests": 1,
+          "input_tokens": 3276,
+          "output_tokens": 244,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2508,
+            "reasoning_tokens": 70
+          }
+        },
+        "forgetting": {
+          "seconds": 4.29,
+          "requests": 1,
+          "input_tokens": 3276,
+          "output_tokens": 537,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2508,
+            "reasoning_tokens": 368
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0032",
+      "seconds": 8.94,
+      "signals": {
+        "user_frustration": {
+          "seconds": 1.55,
+          "requests": 1,
+          "input_tokens": 2827,
+          "output_tokens": 208,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2059,
+            "reasoning_tokens": 73
+          }
+        },
+        "task_failure": {
+          "seconds": 2.87,
+          "requests": 1,
+          "input_tokens": 2864,
+          "output_tokens": 396,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2096,
+            "reasoning_tokens": 272
+          }
+        },
+        "forgetting": {
+          "seconds": 4.52,
+          "requests": 1,
+          "input_tokens": 2864,
+          "output_tokens": 446,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2096,
+            "reasoning_tokens": 218
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0033",
+      "seconds": 11.89,
+      "signals": {
+        "user_frustration": {
+          "seconds": 2.46,
+          "requests": 1,
+          "input_tokens": 2687,
+          "output_tokens": 165,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 1919,
+            "reasoning_tokens": 26
+          }
+        },
+        "task_failure": {
+          "seconds": 4.43,
+          "requests": 1,
+          "input_tokens": 2724,
+          "output_tokens": 523,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 1956,
+            "reasoning_tokens": 326
+          }
+        },
+        "forgetting": {
+          "seconds": 5.0,
+          "requests": 1,
+          "input_tokens": 2724,
+          "output_tokens": 516,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 1956,
+            "reasoning_tokens": 336
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0034",
+      "seconds": 10.62,
+      "signals": {
+        "user_frustration": {
+          "seconds": 1.53,
+          "requests": 1,
+          "input_tokens": 3225,
+          "output_tokens": 126,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2457,
+            "reasoning_tokens": 13
+          }
+        },
+        "task_failure": {
+          "seconds": 4.38,
+          "requests": 1,
+          "input_tokens": 3262,
+          "output_tokens": 596,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2494,
+            "reasoning_tokens": 426
+          }
+        },
+        "forgetting": {
+          "seconds": 4.72,
+          "requests": 1,
+          "input_tokens": 3262,
+          "output_tokens": 499,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2494,
+            "reasoning_tokens": 338
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0035",
+      "seconds": 12.18,
+      "signals": {
+        "user_frustration": {
+          "seconds": 1.89,
+          "requests": 1,
+          "input_tokens": 2849,
+          "output_tokens": 230,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2081,
+            "reasoning_tokens": 104
+          }
+        },
+        "task_failure": {
+          "seconds": 2.55,
+          "requests": 1,
+          "input_tokens": 2886,
+          "output_tokens": 325,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2118,
+            "reasoning_tokens": 125
+          }
+        },
+        "forgetting": {
+          "seconds": 7.73,
+          "requests": 1,
+          "input_tokens": 2886,
+          "output_tokens": 907,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 2118,
+            "reasoning_tokens": 778
+          }
+        }
+      }
+    },
+    {
+      "run_id": "run-0036",
+      "seconds": 7.04,
+      "signals": {
+        "user_frustration": {
+          "seconds": 1.78,
+          "requests": 1,
+          "input_tokens": 2357,
+          "output_tokens": 152,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 1589,
+            "reasoning_tokens": 42
+          }
+        },
+        "task_failure": {
+          "seconds": 2.8,
+          "requests": 1,
+          "input_tokens": 2394,
+          "output_tokens": 383,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 1626,
+            "reasoning_tokens": 187
+          }
+        },
+        "forgetting": {
+          "seconds": 2.47,
+          "requests": 1,
+          "input_tokens": 2394,
+          "output_tokens": 343,
+          "cache_read_tokens": 768,
+          "details": {
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 1626,
+            "reasoning_tokens": 195
+          }
+        }
+      }
+    }
+  ]
+}

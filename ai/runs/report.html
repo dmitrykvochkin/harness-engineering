@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Signal detector model comparison</title>
+<style>
+body { font: 15px/1.5 system-ui, sans-serif; max-width: 1150px; margin: 2rem auto; padding: 0 1rem;
+  color: #1f2328; }
+h1 { margin-bottom: .2rem; } .sub { color: #656d76; margin-top: 0; }
+table { border-collapse: collapse; width: 100%; margin: 1rem 0 2rem; font-size: 14px; }
+th, td { border-bottom: 1px solid #d0d7de; padding: .45rem .6rem; text-align: left;
+  vertical-align: top; }
+th { background: #f6f8fa; }
+.bar { height: 4px; background: #2f81f7; border-radius: 2px; margin-top: 3px; }
+.notes { background: #f6f8fa; border-left: 4px solid #2f81f7; padding: .5rem 1.2rem; }
+.small { color: #656d76; font-size: 13px; }
+</style></head><body>
+<h1>Signal detector: model comparison</h1>
+<p class="sub">Same prompts, same 36 synthetic support traces, 3 detectors per trace
+(108 classifications per model). Scored against the human labels.</p>
+<div class="notes"><h2>Key findings</h2>
+<p><b>DeepSeek-V4.1-Flash matched or beat the GPT-6 Luna benchmark on quality, at about twice the cost and time.</b>
+Accuracy was 86% vs 80%, held-out accuracy 78% vs 61%, and macro F1 0.80 vs 0.74. A full run cost $0.16 vs $0.08 and took 9.2 min vs 4.7 min.</p>
+<ol>
+<li><b>Both models caught every labelled issue.</b> All 26 expected <i>present</i> signals were detected (100% recall), and every correct detection cites an event the reviewer also cited. None of the 216 classifications failed.</li>
+<li><b>Every mistake is a false alarm: an issue flagged when the label says none occurred.</b> Most come from signal bleed: when one thing goes wrong in a conversation, the model also flags a neighbouring signal. Luna does this more often, with 9 false task-failure flags against DeepSeek's 5, and 6 false forgetting flags against 4. Example (run-0025): the agent missed the customer's question twice before answering it. Both models also flagged task failure and forgetting, while the label records only frustration.</li>
+<li><b>Some false alarms are arguable.</b> In run-0012, the agent promised a replacement for the next day, but only a ticket was recorded. Both models called that a task failure. Cases like this need a label review before anyone changes the prompts.</li>
+<li><b>Cost and speed favour Luna.</b> It costs about $2.15 per 1,000 traces, against $4.51 for DeepSeek. DeepSeek produced 34k reasoning tokens against 343 for Luna at low reasoning, and it has a long latency tail: p95 of 19.5 s and a maximum of 72 s per call, against 4.4 s and 7.8 s. DeepSeek's cost ignores its prompt-cache discount on 81k cached input tokens, so its real cost is slightly lower.</li>
+<li><b>The sample is small.</b> The held-out set has 12 runs, or 36 verdicts per model. 78% vs 61% means 28 vs 22 correct: a direction, not proof.</li>
+</ol>
+<p><b>Recommendation:</b> use DeepSeek-V4.1-Flash as the default detector when quality matters most, and Luna when latency or cost matters most. Next steps: reduce signal bleed in the prompts using development runs only, review the disputed labels, then re-run GLM and Qwen.</p>
+<p class="small">Not included: GLM-5.3-Flash stopped after 11 of 36 traces because requests stalled. Qwen3.5-397B-A17B failed on every call before using any tokens.</p>
+</div>
+<h2>Summary</h2>
+<table><tr><th>Model</th><th>Accuracy</th><th>Held-out accuracy</th><th>Macro F1</th>
+<th>Evidence hit</th><th>Errors</th><th>Cost (36 traces)</th><th>Cost / 1k traces</th>
+<th>Wall time</th><th>Per call p50 / p95</th><th>Tokens in / out</th></tr>
+<tr><td>openai:gpt-6-luna (low reasoning)</td><td>80%<div class="bar" style="width:92%"></div></td><td>61%</td><td>0.74<div class="bar" style="width:92%"></div></td><td>100%</td><td>0</td><td>$0.077<div class="bar" style="width:100%"></div></td><td>$2.145</td><td>4.7 min<div class="bar" style="width:100%"></div></td><td>2.4 / 4.4 s</td><td>280,596 / 10,346</td></tr><tr><td>nebius:deepseek-ai/DeepSeek-V4.1-Flash</td><td>86%<div class="bar" style="width:100%"></div></td><td>78%</td><td>0.80<div class="bar" style="width:100%"></div></td><td>100%</td><td>0</td><td>$0.162<div class="bar" style="width:48%"></div></td><td>$4.510</td><td>9.2 min<div class="bar" style="width:51%"></div></td><td>2.9 / 19.5 s</td><td>328,890 / 53,087</td></tr></table>
+<h2>Per signal</h2>
+<table><tr><th rowspan="2">Model</th><th colspan="3">User Frustration</th><th colspan="3">Task Failure</th><th colspan="3">Forgetting</th></tr><tr><th>F1</th><th>Precision / recall</th><th>False alarms / misses</th><th>F1</th><th>Precision / recall</th><th>False alarms / misses</th><th>F1</th><th>Precision / recall</th><th>False alarms / misses</th></tr>
+<tr><td>openai:gpt-6-luna (low reasoning)</td><td>0.82</td><td>69% / 100%</td><td>4 / 0</td><td>0.69</td><td>53% / 100%</td><td>9 / 0</td><td>0.70</td><td>54% / 100%</td><td>6 / 0</td></tr><tr><td>nebius:deepseek-ai/DeepSeek-V4.1-Flash</td><td>0.82</td><td>69% / 100%</td><td>4 / 0</td><td>0.80</td><td>67% / 100%</td><td>5 / 0</td><td>0.78</td><td>64% / 100%</td><td>4 / 0</td></tr></table>
+<p class="small"><b>Accuracy</b>: the share of the 108 verdicts (present / absent / insufficient
+evidence) that exactly match the label; an execution error counts as wrong. <b>Held-out</b>: the
+same measure on the 12 frozen held-out runs only. <b>F1, precision, recall</b>: detecting
+<i>present</i> against everything else. <b>Evidence hit</b>: of the correctly detected
+<i>present</i> signals, the share that cite at least one event the reviewer cited. Cost uses
+list prices per 1M tokens (Nebius prices in classify.py, OpenAI via genai-prices). Wall time
+is the sequential run, 108 agent calls. The prompts were not tuned against these labels.</p>
+</body></html>

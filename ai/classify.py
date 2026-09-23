@@ -106,6 +106,9 @@ VERDICTS = ["present", "absent", "insufficient_evidence"]
 DEFAULT_MODEL = "nebius:deepseek-ai/DeepSeek-V4.1-Flash"
 # Reasoning models can spend the provider's default output budget before answering.
 MAX_TOKENS = 16384
+# Seconds per model request. Without it a stalled provider connection blocks the run for
+# the client default (10 minutes, retried twice); a timeout becomes an error for that signal.
+REQUEST_TIMEOUT = 180
 OUTPUT_RETRIES = 1
 # USD per 1M (input, output) tokens for models genai-prices doesn't know (Nebius AI Studio
 # list prices, 2026-09-23). --input-price/--output-price override these.
@@ -358,6 +361,7 @@ def build_metadata(args, prices, started_at, seconds, trace_stats, counts):
         ),
         "settings": {
             "max_tokens": MAX_TOKENS,
+            "timeout_seconds": REQUEST_TIMEOUT,
             "output_retries": OUTPUT_RETRIES,
             "reasoning": args.reasoning,
         },
@@ -444,7 +448,7 @@ def main():
         return 2
 
     model = build_model(args.model)
-    model_settings = {"max_tokens": MAX_TOKENS}
+    model_settings = {"max_tokens": MAX_TOKENS, "timeout": REQUEST_TIMEOUT}
     if args.reasoning:
         model_settings["thinking"] = args.reasoning
     agents = {

@@ -2,8 +2,10 @@
 
 import json
 from pathlib import Path
+from uuid import UUID
 
 from harness_ai.db.results import load_result_rows
+from harness_ai.db.rows import DefinitionSignalRow, DetectorVerdict
 
 RECORD = {
     "run_id": "run-0001",
@@ -39,6 +41,25 @@ def test_null_signal_becomes_an_error_row(tmp_path: Path):
     assert rows["task_failure"].explanation == "evidence cites unknown event ids: evt-010"
     assert rows["task_failure"].evidence_event_ids == []
     assert rows["forgetting"].verdict.value == "absent"
+
+
+def test_definition_finding_uses_the_slug_as_signal_type():
+    definition_id = UUID("7d3c1a52-8f0e-4b8e-9d65-2f1f6c0a9b11")
+    row = DefinitionSignalRow(
+        run_id="run-0001",
+        signal_type="refund-promises",
+        signal_definition_id=definition_id,
+        verdict=DetectorVerdict.PRESENT,
+        explanation="The agent promised a refund the tool rejected.",
+        evidence_event_ids=["evt-0001-008"],
+        detector_version="nebius:example-model",
+    )
+
+    payload = row.model_dump(mode="json", exclude={"id"})
+
+    assert payload["signal_type"] == "refund-promises"
+    assert payload["signal_definition_id"] == str(definition_id)
+    assert payload["verdict"] == "present"
 
 
 def test_malformed_line_names_its_line_number(tmp_path: Path):

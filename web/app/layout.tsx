@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import { AppSidebar } from "@/components/app-sidebar";
+import { getSignalDefinitions } from "@/lib/data";
+import type { SignalDefinition } from "@/lib/signal-definitions";
 import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
@@ -26,7 +28,14 @@ export const metadata: Metadata = {
   description: "Agent failure detection dashboard",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  let signalDefinitions: SignalDefinition[] = [];
+  try {
+    signalDefinitions = await getSignalDefinitions();
+  } catch {
+    signalDefinitions = [];
+  }
+
   return (
     <html
       lang="en"
@@ -35,7 +44,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full">
         <TooltipProvider>
           <SidebarProvider>
-            <AppSidebar />
+            <AppSidebar signalDefinitions={signalDefinitions} />
             <SidebarInset>
               <header className="flex h-14 shrink-0 items-center gap-2 border-b px-4">
                 <SidebarTrigger className="-ml-1" />

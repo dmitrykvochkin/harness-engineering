@@ -1,0 +1,12 @@
+<h2>Key findings</h2>
+<p><b>DeepSeek-V4.1-Flash matched or beat the GPT-6 Luna benchmark on quality, at about twice the cost and time.</b>
+Accuracy was 86% vs 80%, held-out accuracy 78% vs 61%, and macro F1 0.80 vs 0.74. A full run cost $0.16 vs $0.08 and took 9.2 min vs 4.7 min.</p>
+<ol>
+<li><b>Both models caught every labelled issue.</b> All 26 expected <i>present</i> signals were detected (100% recall), and every correct detection cites an event the reviewer also cited. None of the 216 classifications failed.</li>
+<li><b>Every mistake is a false alarm: an issue flagged when the label says none occurred.</b> Most come from signal bleed: when one thing goes wrong in a conversation, the model also flags a neighbouring signal. Luna does this more often, with 9 false task-failure flags against DeepSeek's 5, and 6 false forgetting flags against 4. Example (run-0025): the agent missed the customer's question twice before answering it. Both models also flagged task failure and forgetting, while the label records only frustration.</li>
+<li><b>Some false alarms are arguable.</b> In run-0012, the agent promised a replacement for the next day, but only a ticket was recorded. Both models called that a task failure. Cases like this need a label review before anyone changes the prompts.</li>
+<li><b>Cost and speed favour Luna.</b> It costs about $2.15 per 1,000 traces, against $4.51 for DeepSeek. DeepSeek produced 34k reasoning tokens against 343 for Luna at low reasoning, and it has a long latency tail: p95 of 19.5 s and a maximum of 72 s per call, against 4.4 s and 7.8 s. DeepSeek's cost ignores its prompt-cache discount on 81k cached input tokens, so its real cost is slightly lower.</li>
+<li><b>The sample is small.</b> The held-out set has 12 runs, or 36 verdicts per model. 78% vs 61% means 28 vs 22 correct: a direction, not proof.</li>
+</ol>
+<p><b>Recommendation:</b> use DeepSeek-V4.1-Flash as the default detector when quality matters most, and Luna when latency or cost matters most. Next steps: reduce signal bleed in the prompts using development runs only, review the disputed labels, then re-run GLM and Qwen.</p>
+<p class="small">Not included: GLM-5.3-Flash stopped after 11 of 36 traces because requests stalled. Qwen3.5-397B-A17B failed on every call before using any tokens.</p>

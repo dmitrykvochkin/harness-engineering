@@ -2,6 +2,9 @@
 uv run python classify.py --input ../data/conversations/traces.jsonl \
   --model openai:gpt-6-luna --reasoning low --output results-gpt-6-luna-low.jsonl
 
+uv run python classify.py --input ../data/conversations/traces.jsonl \
+  --model openai:gpt-6-astra --reasoning low --output results-gpt-6-astra-low.jsonl
+
 
 
 # DeepSeek-V4.1-Flash (default model)

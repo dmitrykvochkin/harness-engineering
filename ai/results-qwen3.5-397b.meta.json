@@ -1,0 +1,952 @@
+{
+  "model": "nebius:Qwen/Qwen3.5-397B-A17B",
+  "input": "../data/conversations/traces.jsonl",
+  "output": "results-qwen3.5-397b.jsonl",
+  "started_at": "2026-09-23T12:27:46+00:00",
+  "finished_at": "2026-09-23T12:27:52+00:00",
+  "duration_seconds": 6.22,
+  "traces": 36,
+  "agent_runs": 108,
+  "errors": 108,
+  "seconds_per_agent_run": {
+    "mean": 0.06,
+    "p50": 0.05,
+    "p95": 0.09,
+    "max": 0.22
+  },
+  "usage": {
+    "requests": 0,
+    "input_tokens": 0,
+    "output_tokens": 0
+  },
+  "cost_usd": 0.0,
+  "prices_usd_per_million_tokens": {
+    "input": 0.6,
+    "output": 3.6
+  },
+  "settings": {
+    "max_tokens": 16384,
+    "timeout_seconds": 180,
+    "output_retries": 1,
+    "reasoning": null
+  },
+  "prompt_sha256": "8eef4f2ec415",
+  "versions": {
+    "python": "3.14.5",
+    "pydantic_ai": "2.48.0",
+    "pydantic": "2.13.5"
+  },
+  "signals": {
+    "user_frustration": {
+      "seconds": 2.17,
+      "usage": {
+        "requests": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "cost_usd": 0.0,
+      "verdicts": {
+        "present": 0,
+        "absent": 0,
+        "insufficient_evidence": 0,
+        "error": 36
+      }
+    },
+    "task_failure": {
+      "seconds": 2.04,
+      "usage": {
+        "requests": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "cost_usd": 0.0,
+      "verdicts": {
+        "present": 0,
+        "absent": 0,
+        "insufficient_evidence": 0,
+        "error": 36
+      }
+    },
+    "forgetting": {
+      "seconds": 2.01,
+      "usage": {
+        "requests": 0,
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "cost_usd": 0.0,
+      "verdicts": {
+        "present": 0,
+        "absent": 0,
+        "insufficient_evidence": 0,
+        "error": 36
+      }
+    }
+  },
+  "per_trace": [
+    {
+      "run_id": "run-0001",
+      "seconds": 0.35,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.18,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.09,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.08,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0002",
+      "seconds": 0.15,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0003",
+      "seconds": 0.31,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.04,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.21,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0004",
+      "seconds": 0.14,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0005",
+      "seconds": 0.19,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.07,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.07,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0006",
+      "seconds": 0.23,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.09,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.09,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0007",
+      "seconds": 0.16,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.06,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0008",
+      "seconds": 0.32,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.19,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.08,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0009",
+      "seconds": 0.18,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.08,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0010",
+      "seconds": 0.14,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.04,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0011",
+      "seconds": 0.32,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.22,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0012",
+      "seconds": 0.14,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.04,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0013",
+      "seconds": 0.14,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0014",
+      "seconds": 0.15,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0015",
+      "seconds": 0.15,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.06,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0016",
+      "seconds": 0.14,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.04,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0017",
+      "seconds": 0.14,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0018",
+      "seconds": 0.15,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.04,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.06,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0019",
+      "seconds": 0.15,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0020",
+      "seconds": 0.14,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.04,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0021",
+      "seconds": 0.14,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.04,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0022",
+      "seconds": 0.16,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.07,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.04,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0023",
+      "seconds": 0.15,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.06,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0024",
+      "seconds": 0.16,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0025",
+      "seconds": 0.14,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.04,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0026",
+      "seconds": 0.15,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0027",
+      "seconds": 0.14,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0028",
+      "seconds": 0.14,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.04,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0029",
+      "seconds": 0.13,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.04,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0030",
+      "seconds": 0.14,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0031",
+      "seconds": 0.15,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0032",
+      "seconds": 0.14,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0033",
+      "seconds": 0.15,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0034",
+      "seconds": 0.21,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.11,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0035",
+      "seconds": 0.16,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.06,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    },
+    {
+      "run_id": "run-0036",
+      "seconds": 0.16,
+      "signals": {
+        "user_frustration": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "task_failure": {
+          "seconds": 0.05,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        },
+        "forgetting": {
+          "seconds": 0.07,
+          "requests": 0,
+          "input_tokens": 0,
+          "output_tokens": 0
+        }
+      }
+    }
+  ]
+}
