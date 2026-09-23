@@ -20,5 +20,9 @@ out/
 .env.*
 !.env.example
 
+# Supabase CLI local state (created by `supabase link`)
+supabase/.temp/
+supabase/.branches/
+
 # OS / editor
 .DS_Store

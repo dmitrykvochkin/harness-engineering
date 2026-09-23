@@ -65,6 +65,9 @@ class RunLabels(BaseModel):
     )
     primary_family: Signal = Field(description="Family this run was authored for, for balance only")
     primary_verdict: Verdict = Field(description="Verdict of the primary family signal")
+    task_expectation: str = Field(
+        description="Reviewer's statement of the requested outcome the run is judged against"
+    )
     synthetic: bool = True
     reviewed_by: str
     reviewed_at: datetime
@@ -78,5 +81,6 @@ class Split(BaseModel):
     dataset: str
     frozen_at: datetime
     rule: str
+    counts: dict[str, int]
     development: list[str]
     held_out: list[str]

@@ -59,7 +59,10 @@ SCENARIOS = [
                 },
                 tag="lookup_result",
             ),
-            A("Could you give me your order number so I can look into the delay?", tag="ask_again_1"),
+            A(
+                "Could you give me your order number so I can look into the delay?",
+                tag="ask_again_1",
+            ),
             U("NL-48213. It's in my first message.", tag="repeat_1"),
             A("Thanks. Let me check the carrier scans."),
             C("get_tracking", {"tracking_id": "3SPNL0092841"}, tag="tracking"),
@@ -335,16 +338,26 @@ SCENARIOS = [
                     "order_id": "NL-50122",
                     "status": "delivered",
                     "delivered_at": "2026-09-02",
-                    "items": [{"sku": "KC-KET-170", "name": "Kettle Nordic 1.7L", "price_eur": 79.0}],
+                    "items": [
+                        {"sku": "KC-KET-170", "name": "Kettle Nordic 1.7L", "price_eur": 79.0}
+                    ],
                     "condition_reported": "unopened",
                 },
                 tag="lookup_result",
             ),
             A("Before I continue I need to verify the account. What postcode is on the order?"),
-            U("120 00, Prague. Why is this so complicated? I've given this three times.", tag="mid_complaint"),
+            U(
+                "120 00, Prague. Why is this so complicated? I've given this three times.",
+                tag="mid_complaint",
+            ),
             C("check_refund_eligibility", {"order_id": "NL-50122"}, tag="eligibility"),
             R(
-                {"eligible": True, "policy": "REF-01", "window_days_remaining": 19, "amount_eur": 79.0},
+                {
+                    "eligible": True,
+                    "policy": "REF-01",
+                    "window_days_remaining": 19,
+                    "amount_eur": 79.0,
+                },
                 tag="eligibility_result",
             ),
             A("Verified, and the refund is approved under our 30-day policy. Processing it now."),
@@ -862,7 +875,11 @@ SCENARIOS = [
                 tag="ticket",
             ),
             R(
-                {"ticket_id": "TCK-20733", "status": "open", "dispatch_cutoff": "2026-09-12T16:00:00Z"},
+                {
+                    "ticket_id": "TCK-20733",
+                    "status": "open",
+                    "dispatch_cutoff": "2026-09-12T16:00:00Z",
+                },
                 tag="ticket_result",
             ),
             A(
@@ -872,10 +889,17 @@ SCENARIOS = [
             ),
             C(
                 "issue_refund",
-                {"order_id": "NL-51344", "amount_eur": 4.95, "reason": "damaged_on_arrival_shipping"},
+                {
+                    "order_id": "NL-51344",
+                    "amount_eur": 4.95,
+                    "reason": "damaged_on_arrival_shipping",
+                },
                 tag="refund",
             ),
-            R({"status": "completed", "refund_id": "RF-71455", "amount_eur": 4.95}, tag="refund_result"),
+            R(
+                {"status": "completed", "refund_id": "RF-71455", "amount_eur": 4.95},
+                tag="refund_result",
+            ),
             A("Shipping refund RF-71455 is completed. Please dispose of the broken plates safely."),
             U(
                 "That's genuinely excellent service, thank you so much. You've saved the dinner.",
@@ -930,7 +954,9 @@ SCENARIOS = [
                     "order_id": "NL-51502",
                     "status": "delivered",
                     "delivered_at": "2026-09-03",
-                    "items": [{"sku": "KC-BLD-129", "name": "Blender Pro 1200W", "price_eur": 129.0}],
+                    "items": [
+                        {"sku": "KC-BLD-129", "name": "Blender Pro 1200W", "price_eur": 129.0}
+                    ],
                 },
                 tag="lookup_result",
             ),
@@ -968,7 +994,7 @@ SCENARIOS = [
                 "To be precise about the state: the refund RF-71502 is submitted but pending, not yet "
                 "paid. It releases automatically once the courier scans the blender at collection, "
                 "then takes up to five working days. Collection is Tuesday 15 September, 09:00-17:00.",
-                tag="accurate_pending,",
+                tag="accurate_pending",
             ),
             U("Fine. As long as I get my money back."),
             A("You will. I'll e-mail the collection label and the refund confirmation now."),
@@ -983,7 +1009,7 @@ SCENARIOS = [
                 "The refund is eligible and was submitted. The tool returned 'pending' and the agent "
                 "explicitly described it as pending with the settlement condition, which matches the "
                 "expected workflow.",
-                evidence=("eligibility_result", "refund_result", "accurate_pending,"),
+                evidence=("eligibility_result", "refund_result", "accurate_pending"),
             ),
             FG: absent(
                 "Order number and postcode are supplied once and reused correctly.",

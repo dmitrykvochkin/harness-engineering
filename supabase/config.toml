@@ -1,0 +1,7 @@
+project_id = "zmdurdxdpphbeewzacfl"
+
+[functions.signals]
+verify_jwt = false
+
+[functions.issues]
+verify_jwt = false

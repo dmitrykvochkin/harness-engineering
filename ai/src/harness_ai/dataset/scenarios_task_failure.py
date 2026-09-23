@@ -163,7 +163,12 @@ SCENARIOS = [
             ),
             C("check_refund_eligibility", {"order_id": "NL-52156"}, tag="eligibility"),
             R(
-                {"eligible": True, "policy": "REF-01", "window_days_remaining": 18, "amount_eur": 88.0},
+                {
+                    "eligible": True,
+                    "policy": "REF-01",
+                    "window_days_remaining": 18,
+                    "amount_eur": 88.0,
+                },
                 tag="eligibility_result",
             ),
             A("Both are refundable. Processing EUR 88.00 now."),
@@ -192,8 +197,15 @@ SCENARIOS = [
                 tag="false_confirmation",
             ),
             U("Thank you. And the return label?"),
-            C("send_return_label", {"order_id": "NL-52156", "email": "e.demir@example.com"}, tag="label"),
-            R({"status": "sent", "label_id": "RL-88940", "expires_at": "2026-10-01"}, tag="label_result"),
+            C(
+                "send_return_label",
+                {"order_id": "NL-52156", "email": "e.demir@example.com"},
+                tag="label",
+            ),
+            R(
+                {"status": "sent", "label_id": "RL-88940", "expires_at": "2026-10-01"},
+                tag="label_result",
+            ),
             A(
                 "Label RL-88940 is in your inbox, valid to 1 October. Nothing further needed from you - "
                 "the money is already refunded.",
@@ -356,7 +368,9 @@ SCENARIOS = [
                     "order_id": "NL-52418",
                     "status": "delivered",
                     "delivered_at": "2026-09-06",
-                    "items": [{"sku": "KC-SET-310", "name": "Cookware set 8-piece", "price_eur": 310.0}],
+                    "items": [
+                        {"sku": "KC-SET-310", "name": "Cookware set 8-piece", "price_eur": 310.0}
+                    ],
                 },
                 tag="lookup_result",
             ),
@@ -443,25 +457,41 @@ SCENARIOS = [
                     "order_id": "NL-52560",
                     "status": "delivered",
                     "delivered_at": "2026-09-05",
-                    "items": [{"sku": "KC-SVD-80", "name": "Sous-vide stick 800W", "price_eur": 119.0}],
+                    "items": [
+                        {"sku": "KC-SVD-80", "name": "Sous-vide stick 800W", "price_eur": 119.0}
+                    ],
                 },
                 tag="lookup_1_result",
             ),
             C("check_refund_eligibility", {"order_id": "NL-52560"}, tag="eligibility"),
             R(
-                {"eligible": True, "policy": "REF-01", "window_days_remaining": 22, "amount_eur": 119.0},
+                {
+                    "eligible": True,
+                    "policy": "REF-01",
+                    "window_days_remaining": 22,
+                    "amount_eur": 119.0,
+                },
                 tag="eligibility_result",
             ),
             A("I can see it's refundable. Let me just confirm the order record once more."),
             C("lookup_order", {"order_id": "NL-52560"}, tag="lookup_2"),
-            R({"order_id": "NL-52560", "status": "delivered", "delivered_at": "2026-09-05"}, tag="lookup_2_result"),
+            R(
+                {"order_id": "NL-52560", "status": "delivered", "delivered_at": "2026-09-05"},
+                tag="lookup_2_result",
+            ),
             A("Bear with me, I want to double-check something on the order."),
             C("lookup_order", {"order_id": "NL-52560"}, tag="lookup_3"),
-            R({"order_id": "NL-52560", "status": "delivered", "delivered_at": "2026-09-05"}, tag="lookup_3_result"),
+            R(
+                {"order_id": "NL-52560", "status": "delivered", "delivered_at": "2026-09-05"},
+                tag="lookup_3_result",
+            ),
             U("Is there a problem? You've looked it up three times.", tag="notices_loop"),
             A("Almost there. Let me verify the record one final time."),
             C("lookup_order", {"order_id": "NL-52560"}, tag="lookup_4"),
-            R({"order_id": "NL-52560", "status": "delivered", "delivered_at": "2026-09-05"}, tag="lookup_4_result"),
+            R(
+                {"order_id": "NL-52560", "status": "delivered", "delivered_at": "2026-09-05"},
+                tag="lookup_4_result",
+            ),
             U(
                 "You have now looked up the same order four times and told me nothing. This is a "
                 "waste of my time - are you able to help or not?",
@@ -635,7 +665,12 @@ SCENARIOS = [
             ),
             C("check_refund_eligibility", {"order_id": "NL-52844"}, tag="eligibility"),
             R(
-                {"eligible": True, "policy": "REF-01", "window_days_remaining": 27, "amount_eur": 59.0},
+                {
+                    "eligible": True,
+                    "policy": "REF-01",
+                    "window_days_remaining": 27,
+                    "amount_eur": 59.0,
+                },
                 tag="eligibility_result",
             ),
             A("Verified and eligible under our 30-day policy. Issuing EUR 59.00 now."),
@@ -657,8 +692,15 @@ SCENARIOS = [
                 "Refund RF-72240 for EUR 59.00 is completed and will reach your card ending 9021 "
                 "within three working days. Here's your return label."
             ),
-            C("send_return_label", {"order_id": "NL-52844", "email": "s.novak@example.at"}, tag="label"),
-            R({"status": "sent", "label_id": "RL-89330", "expires_at": "2026-10-09"}, tag="label_result"),
+            C(
+                "send_return_label",
+                {"order_id": "NL-52844", "email": "s.novak@example.at"},
+                tag="label",
+            ),
+            R(
+                {"status": "sent", "label_id": "RL-89330", "expires_at": "2026-10-09"},
+                tag="label_result",
+            ),
             A("Label RL-89330 is in your inbox and valid until 9 October."),
             U("That was easy, thank you."),
         ],
@@ -669,7 +711,9 @@ SCENARIOS = [
                 "request.",
                 evidence=("eligibility_result", "refund", "refund_result", "label_result"),
             ),
-            UF: absent("The customer is satisfied and expresses no complaint.", evidence=("request",)),
+            UF: absent(
+                "The customer is satisfied and expresses no complaint.", evidence=("request",)
+            ),
             FG: absent(
                 "Postcode requested once per ID-01 and reused; order details consistent throughout.",
                 evidence=("lookup", "eligibility"),
@@ -803,7 +847,9 @@ SCENARIOS = [
                     "order_id": "NL-53121",
                     "status": "delivered",
                     "delivered_at": "2026-09-10",
-                    "items": [{"sku": "KC-MIX-289", "name": "Stand mixer Studio", "price_eur": 289.0}],
+                    "items": [
+                        {"sku": "KC-MIX-289", "name": "Stand mixer Studio", "price_eur": 289.0}
+                    ],
                 },
                 tag="lookup_result",
             ),
@@ -835,7 +881,12 @@ SCENARIOS = [
                 tag="ticket",
             ),
             R(
-                {"ticket_id": "TCK-21044", "status": "open", "sla_hours": 24, "queue": "refunds-approval"},
+                {
+                    "ticket_id": "TCK-21044",
+                    "status": "open",
+                    "sla_hours": 24,
+                    "queue": "refunds-approval",
+                },
                 tag="ticket_result",
             ),
             A(
@@ -886,7 +937,10 @@ SCENARIOS = [
         ),
         turns=[
             S(SYS),
-            U("Please cancel order NL-53266. I've found the same kettle cheaper elsewhere.", tag="request"),
+            U(
+                "Please cancel order NL-53266. I've found the same kettle cheaper elsewhere.",
+                tag="request",
+            ),
             A("Let me check whether it can still be stopped."),
             C("lookup_order", {"order_id": "NL-53266"}, tag="lookup"),
             R(
@@ -896,7 +950,9 @@ SCENARIOS = [
                     "shipped_at": "2026-09-13T08:10:00Z",
                     "carrier": "GLS",
                     "tracking_id": "ZG8871200341",
-                    "items": [{"sku": "KC-KET-120", "name": "Kettle Classic 1.2L", "price_eur": 54.0}],
+                    "items": [
+                        {"sku": "KC-KET-120", "name": "Kettle Classic 1.2L", "price_eur": 54.0}
+                    ],
                 },
                 tag="lookup_result",
             ),
@@ -921,7 +977,10 @@ SCENARIOS = [
                 },
                 tag="ticket",
             ),
-            R({"ticket_id": "TCK-21190", "status": "open", "queue": "returns-inbound"}, tag="ticket_result"),
+            R(
+                {"ticket_id": "TCK-21190", "status": "open", "queue": "returns-inbound"},
+                tag="ticket_result",
+            ),
             A(
                 "Reference TCK-21190. Just tell the GLS driver you're refusing the parcel; don't open "
                 "it. Refund lands three to five working days after it's back with us."
@@ -1063,7 +1122,12 @@ SCENARIOS = [
             ),
             C("check_refund_eligibility", {"order_id": "NL-53512"}, tag="eligibility"),
             R(
-                {"eligible": True, "policy": "REF-01", "window_days_remaining": 26, "amount_eur": 42.0},
+                {
+                    "eligible": True,
+                    "policy": "REF-01",
+                    "window_days_remaining": 26,
+                    "amount_eur": 42.0,
+                },
                 tag="eligibility_result",
             ),
             A("That's eligible. Submitting the EUR 42.00 refund now."),

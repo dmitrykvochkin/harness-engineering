@@ -24,12 +24,8 @@ POLICIES: dict[str, str] = {
         "Re-verification is required only after a 30-minute gap or when the customer "
         "switches to a different order."
     ),
-    "REF-01": (
-        "Refunds are auto-approved for unopened items returned within 30 days of delivery."
-    ),
-    "REF-02": (
-        "Final-sale items are not refundable. Offer store credit of equal value instead."
-    ),
+    "REF-01": ("Refunds are auto-approved for unopened items returned within 30 days of delivery."),
+    "REF-02": ("Final-sale items are not refundable. Offer store credit of equal value instead."),
     "REF-03": (
         "Refunds above EUR 250 require supervisor approval: create a ticket in queue "
         "'refunds-approval' and tell the customer it is pending approval."
@@ -53,6 +49,10 @@ POLICIES: dict[str, str] = {
     "DEL-02": (
         "Redelivery must be scheduled inside a window the customer has confirmed they "
         "are available for."
+    ),
+    "DEL-03": (
+        "After carrier handover, an in-transit parcel may be redirected to a carrier pickup "
+        "point or locker with redirect_to_pickup_point."
     ),
     "ESC-01": (
         "When the customer asks for a human, or a permitted action cannot be completed, "
@@ -88,6 +88,10 @@ TOOL_SEMANTICS: dict[str, str] = {
         "address in place."
     ),
     "schedule_redelivery": "Write. result.status 'scheduled' returns the booked slot.",
+    "redirect_to_pickup_point": (
+        "Write. result.status 'redirected' means the carrier accepted the pickup point; "
+        "'rejected' leaves the original delivery address in place."
+    ),
     "send_return_label": "Write. result.status 'sent' means the label reached the customer.",
     "create_ticket": "Write. Returns ticket_id; absence of this call means no ticket exists.",
     "escalate_to_human": "Write. Returns handoff_id and queue position for a live agent.",
